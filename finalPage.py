@@ -38,7 +38,7 @@ def play_video(video_path):
 
     update_frame()  # Start the video loop
 
-class Page3(customtkinter.CTkFrame):
+class Page5(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
         customtkinter.CTkFrame.__init__(self, parent)
         self.controller = controller
