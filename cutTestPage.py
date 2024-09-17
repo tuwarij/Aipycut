@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from PIL import Image, ImageTk
 import cv2
 
 ctk.set_appearance_mode("dark")
@@ -48,9 +49,8 @@ class Page3(ctk.CTkFrame):
 
         nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page4"))
         nextButton.place(x=1080,y=640)
+
         
-
-
         # Time entry fields
         self.timeEndStartFields()
 
@@ -122,13 +122,15 @@ class Page3(ctk.CTkFrame):
                 width=100
             )
             end_time_entry.place(relx=offset + 0.07, rely=0.7)
+            self.vdoPreview(offset)
 
-    def vdoPreview(self):
+    def vdoPreview(self,x):
+        #1536x864
         aspect_ratio = 5 / 4
-        frame_width = int(self.width * 0.35)
+        frame_width = int(1536 * 0.35*0.6)
         frame_height = int(frame_width / aspect_ratio)
         vdoFrame = ctk.CTkFrame(self, width=frame_width, height=frame_height, fg_color="grey")
-        vdoFrame.place(relx=0.525, rely=0.3, anchor="nw")
+        vdoFrame.place(relx=x, rely=0.3, anchor="nw")
 
         self.cap = cv2.VideoCapture('test.mp4')
         if not self.cap.isOpened():
@@ -140,11 +142,22 @@ class Page3(ctk.CTkFrame):
 
         self.label_img = ctk.CTkLabel(vdoFrame)
         self.label_img.pack(expand=True, fill="both")
+        self.update_frame()
 
-        
+    def update_frame(self):
+        ret, frame = self.cap.read()
+        if ret:
+            frame = cv2.resize(frame, (self.frame_width, self.frame_height))
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(frame)
+            img = ImageTk.PhotoImage(img)
+            self.label_img.configure(image=img)
+            self.label_img.image = img
+            self.after(30, self.update_frame)
+        else:
+            print("Error: Frame not read.")
+            self.cap.release()
 
-    def buttonNext(self):
-        button_frame = ctk.CTkFrame(self, fg_color="#4CC9F0") 
-        button_frame.place(relx=0.928, rely=0.835, anchor="center")  
+    
 
 
