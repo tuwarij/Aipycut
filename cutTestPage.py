@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import cv2
 
 ctk.set_appearance_mode("dark")
 
@@ -46,32 +47,16 @@ class Page3(ctk.CTkFrame):
         label2.pack(pady=50 ,padx=250, side="top",fill="both", expand=True ,anchor="nw")
 
         nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page4"))
-        # nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: airec)
         nextButton.place(x=1080,y=640)
         
 
 
-        
-        # # Set the window background
-        # self.configure(fg_color="#111111")
+        # Time entry fields
+        self.timeEndStartFields()
 
-        # # Title label
-        # self.cutText()
-        
-        # # Main video cutting field
-        # self.bgField()
-
-        # # Progress bar with steps
-        # self.progressBar()
-
-        # # Time entry fields
-        # self.timeEndStartFields()
-
-        # # Next button
-        # self.buttonNext()
 
     def cutText(self):
-        label = ctk.CTkLabel(self, text="Cut Length Video", font=("Tahoma", 32), text_color="#4CC9F0")
+        label = ctk.CTkLabel(self, text="Cut Length Video", font=("Tahoma", 32,"bold"), text_color="#4CC9F0")
         label.place(relx=0.5, rely=0.07, anchor="center")
 
     def bgField(self):
@@ -96,25 +81,70 @@ class Page3(ctk.CTkFrame):
         label5.place(x=495, y=60)
 
     def timeEndStartFields(self):
-        # Start and End time fields for video cutting
-        labelStart = ctk.CTkLabel(self, text="Start Time:", font=("Tahoma", 16), text_color="white")
-        labelStart.place(relx=0.1, rely=0.575)
+    # Number of video fields
+        numOfvideos = 4
+        
+        for i in range(numOfvideos):
+            offset = 0.2 + (0.185 * i)  # Adjust spacing as needed
 
-        self.start_time_entry = ctk.CTkEntry(self, font=("Tahoma", 14), width=10)
-        self.start_time_entry.place(relx=0.18, rely=0.575)
+            # Start Time Label
+            labelStart = ctk.CTkLabel(
+                self,
+                text="Start Time :",
+                font=("Tahoma", 16),
+                text_color="white",
+                bg_color="#181818"
+            )
+            labelStart.place(relx=offset, rely=0.65)
 
-        labelEnd = ctk.CTkLabel(self, text="End Time:", font=("Tahoma", 16), text_color="white")
-        labelEnd.place(relx=0.1, rely=0.625)
+            # Start Time Entry
+            start_time_entry = ctk.CTkEntry(
+                self,
+                font=("Tahoma", 14),
+                width=100
+            )
+            start_time_entry.place(relx=offset + 0.07, rely=0.65)
 
-        self.end_time_entry = ctk.CTkEntry(self, font=("Tahoma", 14), width=10)
-        self.end_time_entry.place(relx=0.18, rely=0.625)
+            # End Time Label
+            labelEnd = ctk.CTkLabel(
+                self,
+                text="End Time :",
+                font=("Tahoma", 16),
+                text_color="white",
+                bg_color="#181818"
+            )
+            labelEnd.place(relx=offset, rely=0.7)
+
+            # End Time Entry
+            end_time_entry = ctk.CTkEntry(
+                self,
+                font=("Tahoma", 14),
+                width=100
+            )
+            end_time_entry.place(relx=offset + 0.07, rely=0.7)
+
+    def vdoPreview(self):
+        aspect_ratio = 5 / 4
+        frame_width = int(self.width * 0.35)
+        frame_height = int(frame_width / aspect_ratio)
+        vdoFrame = ctk.CTkFrame(self, width=frame_width, height=frame_height, fg_color="grey")
+        vdoFrame.place(relx=0.525, rely=0.3, anchor="nw")
+
+        self.cap = cv2.VideoCapture('test.mp4')
+        if not self.cap.isOpened():
+            print("Error: Unable to open video file.")
+            return
+
+        self.frame_width = frame_width
+        self.frame_height = frame_height
+
+        self.label_img = ctk.CTkLabel(vdoFrame)
+        self.label_img.pack(expand=True, fill="both")
+
+        
 
     def buttonNext(self):
         button_frame = ctk.CTkFrame(self, fg_color="#4CC9F0") 
         button_frame.place(relx=0.928, rely=0.835, anchor="center")  
-        
-        # btn = ctk.CTkButton(button_frame, text='Next', command=lambda: airec.main(self), fg='white', bg_color="#262626", hover_color='#0d0d0d', text_color='white')
-        # btn.config(width=11, height=1) 
-        # btn.pack(padx=5, pady=5)  # Use padding instead of padx and pady
 
 
