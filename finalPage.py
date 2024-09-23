@@ -75,6 +75,8 @@ class Page5(customtkinter.CTkFrame):
         label4.place(x=370,y=60)
         label5.place(x=495,y=50)
 
+        infoText = customtkinter.CTkLabel(master=frame, text="ตัวอย่าง วิดีโอ สามารถกดปุ่ม export เพื่อโหลดไฟล์ได้", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
+        infoText.place(relx = 0.281, rely = 0.22, anchor="n")
         
         monitor = customtkinter.CTkLabel(master=frame, text="", fg_color="#262626")
         monitor.pack(padx=250, pady=50, side="top", anchor="n", fill="both", expand=True)
