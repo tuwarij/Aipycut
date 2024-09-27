@@ -94,34 +94,6 @@ class Page3(ctk.CTkFrame):
         nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page4"))
         nextButton.place(x=1080,y=640)
 
-        # Time entry fields
-        # self.timeEndStartFields()
-
-
-
-    def timeEndStartFields(self):
-    # Number of video fields
-        numOfvideos = 4
-        
-        for i in range(numOfvideos):
-            offset = 0.2 + (0.2 * i)  # Adjust spacing as needed
-
-            # Start Time Label
-            labelStart = ctk.CTkLabel(self,text="Start Time :",font=("Tahoma", 16),text_color="white",bg_color="#181818")
-            labelStart.place(relx=offset, rely=0.65)
-
-            # Start Time Entry
-            start_time_entry = ctk.CTkEntry(self,font=("Tahoma", 14),width=100)
-            start_time_entry.place(relx=offset + 0.07, rely=0.65)
-
-            # End Time Label
-            labelEnd = ctk.CTkLabel(self,text="End Time :",font=("Tahoma", 16),text_color="white",bg_color="#181818")
-            labelEnd.place(relx=offset, rely=0.7)
-
-            # End Time Entry
-            end_time_entry = ctk.CTkEntry(self,font=("Tahoma", 14),width=100)
-            end_time_entry.place(relx=offset + 0.07, rely=0.7)
-            self.vdoPreview(offset)
 
     def vdoPreview(self,x):
         #1536x864
