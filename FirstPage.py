@@ -18,7 +18,7 @@ class Page1(customtkinter.CTkFrame):
         hidden = customtkinter.CTkLabel(master=inner1, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden.pack( padx=50, side="top", anchor="nw")
 
-        label = customtkinter.CTkLabel(master=inner1, text="AipyCut", font=("Tahoma", 30, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#4CC9F0"))
+        label = customtkinter.CTkLabel(master=inner1, text="Frame Rate & Resize Video", font=("Tahoma", 30, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#4CC9F0"))
         label.pack( padx=50, side="top", anchor="n")
         
         frame2 = customtkinter.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent")
