@@ -10,11 +10,11 @@ class Page3(ctk.CTkFrame):
         self.controller = controller
 
         # Page Bg
-        frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="red")#111111
+        frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")#111111
         frame.pack(fill="both", expand=True )
 
         # Inner Frame in Page bg (for what??)
-        inner1 = ctk.CTkFrame(master=frame, bg_color="transparent", fg_color="blue") #transparent     
+        inner1 = ctk.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent") #transparent     
         inner1.pack(side = "top",fill="both", expand=True )
         
         # for make margin on the top 
@@ -26,7 +26,7 @@ class Page3(ctk.CTkFrame):
         label.pack( padx=50, side="top", anchor="n")
         
         # frame for progress bar
-        frame2 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="green") #transparent
+        frame2 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent") #transparent
         frame2.pack( side = "top")
         
         #Progression bar
