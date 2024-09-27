@@ -43,6 +43,9 @@ class Page1(customtkinter.CTkFrame):
         label3.place(x=250,y=60)
         label4.place(x=370,y=60)
         label5.place(x=495,y=60)
+        
+        infoText = customtkinter.CTkLabel(master=inner1, text="เลือก Frame rate และ Size video ตามต้องการ", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
+        infoText.place(relx = 0.27, rely = 0.22, anchor="n")
 
         label2 = customtkinter.CTkFrame(master=inner1, bg_color="transparent", fg_color="#181818", corner_radius = 5,border_width=1,border_color="#474747")
         label2.pack(pady=50 ,padx=250, side="top",fill="both", expand=True ,anchor="nw")

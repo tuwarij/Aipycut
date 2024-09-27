@@ -51,6 +51,9 @@ class Page2(customtkinter.CTkFrame):
         label3.place(x=250,y=60)
         label4.place(x=370,y=60)
         label5.place(x=495,y=60)
+        
+        infoText = customtkinter.CTkLabel(master=frame, text="อัพโหลดคลิปที่ต้องการแก้ไขที่ช่องอัพโหลด", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
+        infoText.place(relx = 0.26, rely = 0.22, anchor="n")
 
         #Upload button
         uploadButton = customtkinter.CTkButton(master=frame, width= 150,height=50,text="Upload your video", font=("Tahoma", 20,"bold"),text_color = "#8c8c8c",corner_radius = 1,border_width=2,border_color="#474747",fg_color="#262626",hover = False,command=select_video)
