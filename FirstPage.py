@@ -1,11 +1,9 @@
 import customtkinter
 from PIL import Image, ImageDraw, ImageTk
 from animate import ProgressBarAnimator 
+import VideoEditor
 
 customtkinter.set_appearance_mode("dark")
-
-
-
 
 class Page1(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
@@ -19,14 +17,15 @@ class Page1(customtkinter.CTkFrame):
             selected_value2 = combobox2.get()
             selected_values.append(selected_value)
             selected_values.append(selected_value2)
-            print("Selected value:", selected_values[0])
-            print("Selected value:", selected_values[1])
+            # print("Selected value:", selected_values[0])
+            # print("Selected value:", selected_values[1])
             
         def change_frame():
             controller.show_frame("Page2")
             
         def combineFunc():
             get_combobox_value()
+            controller.video_editor = VideoEditor.VideoEditor(fps=int(selected_values[0]), resolution=(int(selected_values[1].split(" x ")[0]), int(selected_values[1].split(" x ")[1])))
             change_frame()
         
     
