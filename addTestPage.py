@@ -1,6 +1,8 @@
 import customtkinter as ctk
-from PIL import Image, ImageTk , ImageFilter
+from PIL import Image, ImageTk
 import cv2
+
+from animate import ProgressBarAnimator
 
 class Page4(ctk.CTkFrame):
     def __init__(self, parent, controller):
@@ -32,9 +34,11 @@ class Page4(ctk.CTkFrame):
         frame2.pack( side = "top")
         
         #Progression bar
-        progressbar = ctk.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        progressbar.pack( pady = 20,side="top", anchor="n")
-        progressbar.set(0.80)
+        # progressbar = ctk.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
+        # progressbar.pack( pady = 20,side="top", anchor="n")
+        # progressbar.set(0.70)
+        
+        self.animator = ProgressBarAnimator(frame2)
         
         hidden1 = ctk.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden1.pack( side="top", anchor="n")
@@ -106,12 +110,12 @@ class Page4(ctk.CTkFrame):
         label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image1, text="",bg_color="black",corner_radius=5)
         label_with_image.place(x=380, y=4)
         
-        image_path = "circle2.png"
-        image2 = self.add_image(image_path,200,130)
-        label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image2, text="",bg_color="black",corner_radius=5)
-        label_with_image.place(x=1, y=90)
+        # image_path = "circle2.png"
+        # image2 = self.add_image(image_path,200,130)
+        # label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image2, text="",bg_color="black",corner_radius=5)
+        # label_with_image.place(x=1, y=90)
 
-        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page5"))
+        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page5"))
         nextButton.place(x=1250,y=670)
 
 
@@ -173,5 +177,7 @@ class Page4(ctk.CTkFrame):
         image_tk = ImageTk.PhotoImage(image)
         return image_tk
 
+    def start_animation(self):
+        self.animator.animate_progressbar(start=0.5, target=0.7)
 
 

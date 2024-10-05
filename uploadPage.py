@@ -2,6 +2,7 @@ import os
 import customtkinter
 from PIL import Image, ImageDraw, ImageTk
 from tkinter import filedialog
+from animate import ProgressBarAnimator
 
 customtkinter.set_appearance_mode("dark")
 
@@ -33,9 +34,11 @@ class Page2(customtkinter.CTkFrame):
         frame2.pack( side = "top")
         
         #Progression Bar
-        progressbar = customtkinter.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        progressbar.pack( pady = 20,side="top", anchor="n")
-        progressbar.set(0.40)
+        # progressbar = customtkinter.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
+        # progressbar.pack( pady = 20,side="top", anchor="n")
+        # progressbar.set(0.30)
+        
+        self.animator = ProgressBarAnimator(frame2)
         
         hidden1 = customtkinter.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden1.pack( side="top", anchor="n")
@@ -56,9 +59,12 @@ class Page2(customtkinter.CTkFrame):
         infoText.place(relx = 0.26, rely = 0.22, anchor="n")
 
         #Upload button
-        uploadButton = customtkinter.CTkButton(master=frame, width= 150,height=50,text="Upload your video", font=("Tahoma", 20,"bold"),text_color = "#8c8c8c",corner_radius = 1,border_width=2,border_color="#474747",fg_color="#262626",hover = False,command=select_video)
+        uploadButton = customtkinter.CTkButton(master=frame, width= 150,height=50,text="Upload your video", font=("Tahoma", 20,"bold"),text_color = "#8c8c8c",corner_radius = 1,border_width=2,border_color="#474747",fg_color="#181818",hover = False,command=select_video)
         uploadButton.pack(pady=50 ,padx=250, side="top",fill="both", expand=True ,anchor="nw")
 
         #Next button
-        nextButton = customtkinter.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page3"))
+        nextButton = customtkinter.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page3"))
         nextButton.place(x=1080,y=640)    
+        
+    def start_animation(self):
+        self.animator.animate_progressbar(start=0.1, target=0.3)

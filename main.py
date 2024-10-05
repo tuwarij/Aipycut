@@ -33,6 +33,18 @@ class App(ctk.CTk):
     def show_frame(self, page_name):
         frame = self.frames[page_name]
         frame.tkraise()  # Bring the frame to the front
+        
+        if page_name == "Page1":
+            frame.start_animation()
+        elif page_name == "Page2":
+            frame.start_animation()
+        elif page_name == "Page3":
+            frame.start_animation()
+        elif page_name == "Page4":
+            frame.start_animation()
+        elif page_name == "Page5":
+            frame.start_animation()
+            
 
 if __name__ == "__main__":
     app = App()

@@ -1,17 +1,41 @@
 import customtkinter
 from PIL import Image, ImageDraw, ImageTk
+from animate import ProgressBarAnimator 
 
 customtkinter.set_appearance_mode("dark")
+
+
 
 
 class Page1(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
         customtkinter.CTkFrame.__init__(self, parent)
         self.controller = controller
+
+        selected_values = []
+        
+        def get_combobox_value():
+            selected_value = combobox.get()
+            selected_value2 = combobox2.get()
+            selected_values.append(selected_value)
+            selected_values.append(selected_value2)
+            print("Selected value:", selected_values[0])
+            print("Selected value:", selected_values[1])
+            
+        def change_frame():
+            controller.show_frame("Page2")
+            
+        def combineFunc():
+            get_combobox_value()
+            change_frame()
+        
     
         frame = customtkinter.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")
         frame.pack(fill="both", expand=True )
-
+        
+        appName = customtkinter.CTkLabel(master=self, text="AipyCut", font=("Tahoma", 60, "bold"), bg_color="transparent", fg_color="#111111", text_color="#4CC9F0")
+        appName.place(relx = 0.1, rely = 0.02, anchor="n")
+        
         inner1 = customtkinter.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent")      
         inner1.pack(side = "top",fill="both", expand=True )
         
@@ -25,9 +49,11 @@ class Page1(customtkinter.CTkFrame):
         frame2.pack( side = "top")
         
         #Progression bar
-        progressbar = customtkinter.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        progressbar.pack( pady = 20,side="top", anchor="n")
-        progressbar.set(0.20)
+        # progressbar = customtkinter.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
+        # progressbar.pack( pady = 20,side="top", anchor="n")
+        # progressbar.set(0)
+        self.animator = ProgressBarAnimator(frame2)
+        # animator.animate_progressbar(start=0, target=0.1)
         
         hidden1 = customtkinter.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden1.pack( side="top", anchor="n")
@@ -56,7 +82,7 @@ class Page1(customtkinter.CTkFrame):
         selectF = customtkinter.CTkLabel(master=label2, text="Select a frame rate          ", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#ffffff"))
         selectF.pack(padx=50, side="top",anchor="n")
 
-        frameratelist = ["option 1", "option 2"]
+        frameratelist = ["25","30","60"]
         combobox = customtkinter.CTkComboBox(label2, values=frameratelist,height=50,width=200,font=("Tahoma", 15),fg_color="#262626", corner_radius = 3,border_width=0,button_color="#262626",button_hover_color="#2C748A",dropdown_hover_color="#2C748A",justify="center")
         combobox.pack(padx=50, side="top",anchor="n")
         
@@ -66,12 +92,12 @@ class Page1(customtkinter.CTkFrame):
         selectS = customtkinter.CTkLabel(master=label2, text="Select a size video          ", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#ffffff"))
         selectS.pack(padx=50, side="top",anchor="n")
 
-        sizevideolist = ["option 1", "option 2"]
+        sizevideolist = ["1920 x 1080", "1280 x 720","854 x 480" ]
         combobox2 = customtkinter.CTkComboBox(label2, values=sizevideolist,height=50,width=200,font=("Tahoma", 15),fg_color="#262626", corner_radius = 3,border_width=0,button_color="#262626",button_hover_color="#2C748A",dropdown_hover_color="#2C748A",justify="center")
         combobox2.pack(padx=50, side="top",anchor="n")
 
         #next button
-        button = customtkinter.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page2"))
+        button = customtkinter.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=combineFunc)
         button.place(x=1080,y=640)
 
         # #picture
@@ -81,4 +107,5 @@ class Page1(customtkinter.CTkFrame):
         # image_tk = ImageTk.PhotoImage(image)
         # label_with_image = customtkinter.CTkFrame(label2, image=image_tk, text="") 
         # label_with_image.place(x=50,y=50)
-        
+    def start_animation(self):
+        self.animator.animate_progressbar(start=0, target=0.1)

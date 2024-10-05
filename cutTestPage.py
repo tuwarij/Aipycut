@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
 import cv2
+from animate import ProgressBarAnimator
 
 ctk.set_appearance_mode("dark")
 
@@ -30,9 +31,10 @@ class Page3(ctk.CTkFrame):
         frame2.pack( side = "top")
         
         #Progression bar
-        progressbar = ctk.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        progressbar.pack( pady = 20,side="top", anchor="n")
-        progressbar.set(0.60)
+        # progressbar = ctk.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
+        # progressbar.pack( pady = 20,side="top", anchor="n")
+        # progressbar.set(0.50)
+        self.animator = ProgressBarAnimator(frame2)
         
         # for show progress bar
         hidden1 = ctk.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black") #
@@ -91,7 +93,7 @@ class Page3(ctk.CTkFrame):
 
 
             
-        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: controller.show_frame("Page4"))
+        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page4"))
         nextButton.place(x=1080,y=640)
 
 
@@ -129,6 +131,8 @@ class Page3(ctk.CTkFrame):
             print("Error: Frame not read.")
             self.cap.release()
 
+    def start_animation(self):
+        self.animator.animate_progressbar(start=0.3, target=0.5)
     
 
 
