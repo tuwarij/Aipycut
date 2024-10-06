@@ -1,11 +1,8 @@
 import customtkinter
-from PIL import Image, ImageDraw, ImageTk
+
 from animate import ProgressBarAnimator 
 
 customtkinter.set_appearance_mode("dark")
-
-
-
 
 class Page1(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
@@ -48,12 +45,7 @@ class Page1(customtkinter.CTkFrame):
         frame2 = customtkinter.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent")
         frame2.pack( side = "top")
         
-        #Progression bar
-        # progressbar = customtkinter.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        # progressbar.pack( pady = 20,side="top", anchor="n")
-        # progressbar.set(0)
         self.animator = ProgressBarAnimator(frame2)
-        # animator.animate_progressbar(start=0, target=0.1)
         
         hidden1 = customtkinter.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden1.pack( side="top", anchor="n")
@@ -71,9 +63,10 @@ class Page1(customtkinter.CTkFrame):
         label5.place(x=495,y=60)
         
         infoText = customtkinter.CTkLabel(master=inner1, text="เลือก Frame rate และ Size video ตามต้องการ", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
-        infoText.place(relx = 0.27, rely = 0.22, anchor="n")
+        infoText.place(relx = 0.32, rely = 0.25, anchor="n")
 
         label2 = customtkinter.CTkFrame(master=inner1, bg_color="transparent", fg_color="#181818", corner_radius = 5,border_width=1,border_color="#474747")
+        label2.pack_propagate(False)
         label2.pack(pady=50 ,padx=250, side="top",fill="both", expand=True ,anchor="nw")
 
         hidden1 = customtkinter.CTkLabel(master=label2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
@@ -97,15 +90,8 @@ class Page1(customtkinter.CTkFrame):
         combobox2.pack(padx=50, side="top",anchor="n")
 
         #next button
-        button = customtkinter.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=combineFunc)
-        button.place(x=1080,y=640)
+        button = customtkinter.CTkButton(master=label2, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=combineFunc)
+        button.place(relx=0.75,rely=0.8)
 
-        # #picture
-        # image_path = "filmroll.png" 
-        # image = Image.open(image_path)
-        # image = image.resize((600, 300))  
-        # image_tk = ImageTk.PhotoImage(image)
-        # label_with_image = customtkinter.CTkFrame(label2, image=image_tk, text="") 
-        # label_with_image.place(x=50,y=50)
     def start_animation(self):
         self.animator.animate_progressbar(start=0, target=0.1)

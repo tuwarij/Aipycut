@@ -11,8 +11,7 @@ class App(ctk.CTk):
         super().__init__()
 
         self.title("Aipycut")
-        self.geometry("1536x864")
-        self.after(0, lambda:self.state('zoomed'))
+        self.geometry("1280x720")
 
         self.frames = {}
         
