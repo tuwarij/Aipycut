@@ -1,4 +1,6 @@
 import os
+import shutil
+import VideoEditor
 import customtkinter
 from PIL import Image, ImageDraw, ImageTk
 from tkinter import filedialog
@@ -6,14 +8,6 @@ from animate import ProgressBarAnimator
 
 customtkinter.set_appearance_mode("dark")
 
-def select_video():
-    global filename
-    filename = filedialog.askopenfilename(
-        initialdir=os.getcwd(),
-        title="Select a video",
-        filetypes=(("MP4 files", "*.mp4"), ("all files", "*.*"))
-    )
-    print(filename)
 
 class Page2(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
@@ -59,7 +53,7 @@ class Page2(customtkinter.CTkFrame):
         infoText.place(relx = 0.31, rely = 0.25, anchor="n")
 
         #Upload button
-        uploadButton = customtkinter.CTkButton(master=frame, width= 150,height=50,text="Upload your video", font=("Tahoma", 20,"bold"),text_color = "#8c8c8c",corner_radius = 1,border_width=2,border_color="#474747",fg_color="#181818",hover = False,command=select_video)
+        uploadButton = customtkinter.CTkButton(master=frame, width= 150,height=50,text="Upload your video", font=("Tahoma", 20,"bold"),text_color = "#8c8c8c",corner_radius = 1,border_width=2,border_color="#474747",fg_color="#181818",hover = False,command=self.select_video)
         uploadButton.pack(pady=50 ,padx=250, side="top",fill="both", expand=True ,anchor="nw")
 
         #Next button
@@ -67,5 +61,33 @@ class Page2(customtkinter.CTkFrame):
         nextButton.place(relx=0.75,rely=0.8) 
            
         
+    def select_video(self):
+        global filename
+        filename = filedialog.askopenfilename(
+            initialdir=os.getcwd(),
+            title="Select a video",
+            filetypes=(("MP4 files", "*.mp4"), ("all files", "*.*"))
+        )
+        # upload to uploads folder
+        if filename:
+            # Define the destination folder (uploads)
+            destination_folder = os.path.join(os.getcwd(), 'uploads')
+            
+            # Create the uploads folder if it doesn't exist
+            if not os.path.exists(destination_folder):
+                os.makedirs(destination_folder)
+            
+            # Define the destination path for the file
+            destination_path = os.path.join(destination_folder, os.path.basename(filename))
+            
+            # Copy the selected file to the uploads folder
+            shutil.copy2(filename, destination_path)
+
+            self.controller.videoPaths.append(destination_path)
+
+            print(f"Video file uploaded to: {destination_path}")
+        else:
+            print("No file selected.")
+
     def start_animation(self):
         self.animator.animate_progressbar(start=0.1, target=0.3)

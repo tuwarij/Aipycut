@@ -61,9 +61,8 @@ class Page3(ctk.CTkFrame):
         scrollFrame = ctk.CTkScrollableFrame(master=inner1, orientation="horizontal", bg_color="transparent", fg_color="#181818", corner_radius=5, border_width=1, border_color="#474747")
         scrollFrame.pack(pady=50, padx=250, side="top", fill="both", expand=True, anchor="nw")
 
-        numOfvideos = 1
-        numOfvideos = 1
-        for i in range(numOfvideos):
+        # numOfvideos = 4
+        for i in range(len(controller.videoPaths)):
             col_offset = 2 * i  # Ensures label and entry for each video are in separate columns
 
             # Video Preview Frame
@@ -73,10 +72,7 @@ class Page3(ctk.CTkFrame):
             vdoFrame = ctk.CTkFrame(scrollFrame, width=frame_width, height=frame_height, fg_color="grey")
             vdoFrame.grid(row=0, column=col_offset, columnspan=2, padx=30, pady=(10, 0))  # Video preview spans two columns
 
-            video_path = f"video{i+1}.mp4"  # Example, or fetch from user input
-            self.cap = cv2.VideoCapture(video_path)
-            video_path = f"video{i+1}.mp4"  # Example, or fetch from user input
-            self.cap = cv2.VideoCapture(video_path)
+            self.cap = cv2.VideoCapture(controller.videoPaths[i])
             if not self.cap.isOpened():
                 print(ff"Error: Unable to open video file {video_path} {video_path}.")
                 return
@@ -107,19 +103,6 @@ class Page3(ctk.CTkFrame):
 
         nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: [self.collect_data(), controller.show_frame("Page4")])
         nextButton.place(x=1080,y=640)
-
-    def collect_data(self):
-        for index, timing in enumerate(self.video_timings):
-            start_time = timing['start_entry'].get()
-            end_time = timing['end_entry'].get()
-            print(f"Video {index + 1}: Start Time = {start_time}, End Time = {end_time}")
-
-    def collect_data(self):
-        for index, timing in enumerate(self.video_timings):
-            start_time = timing['start_entry'].get()
-            end_time = timing['end_entry'].get()
-            print(f"Video {index + 1}: Start Time = {start_time}, End Time = {end_time}")
-
 
     def update_frame(self):
         ret, frame = self.cap.read()
