@@ -2,12 +2,12 @@ import os
 import shutil
 import VideoEditor
 import customtkinter
-from PIL import Image, ImageDraw, ImageTk
+from PIL import Image, ImageTk
 from tkinter import filedialog
+import cv2  # Import OpenCV to extract video frames
 from animate import ProgressBarAnimator
 
 customtkinter.set_appearance_mode("dark")
-
 
 class Page2(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
@@ -27,17 +27,12 @@ class Page2(customtkinter.CTkFrame):
         frame2 = customtkinter.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent")
         frame2.pack( side = "top")
         
-        #Progression Bar
-        # progressbar = customtkinter.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        # progressbar.pack( pady = 20,side="top", anchor="n")
-        # progressbar.set(0.30)
-        
         self.animator = ProgressBarAnimator(frame2)
         
         hidden1 = customtkinter.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden1.pack( side="top", anchor="n")
         
-        #Prgessive Label bar
+        #Progressive Label bar
         label1 = customtkinter.CTkButton(frame2, width=100,text='Frame Rate',   font=("Tahoma", 15, "bold"),text_color = "#8c8c8c", fg_color="#262626",corner_radius = 50,border_width=2,border_color="#474747",hover = False)
         label2 = customtkinter.CTkButton(frame2, width=100,text='Upload',       font=("Tahoma", 15, "bold"),text_color = "#4CC9F0", fg_color='white',corner_radius = 50,border_width=2,border_color="#474747",hover = False)
         label3 = customtkinter.CTkButton(frame2, width=100,text='Cut time',     font=("Tahoma", 15, "bold"),text_color = "#8c8c8c", fg_color="#262626",corner_radius = 50,border_width=2,border_color="#474747",hover = False)

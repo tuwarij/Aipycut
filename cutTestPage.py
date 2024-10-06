@@ -11,9 +11,6 @@ class Page3(ctk.CTkFrame):
         ctk.CTkFrame.__init__(self, parent)
         self.controller = controller
 
-        # Store video start and end times in a list
-        self.video_timings = []  # List to store start and end times for each video
-
         # Page Bg
         frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")#111111
         frame.pack(fill="both", expand=True )
@@ -34,7 +31,6 @@ class Page3(ctk.CTkFrame):
         frame2 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent") #transparent
         frame2.pack( side = "top")
 
-        #Progression bar
         self.animator = ProgressBarAnimator(frame2)
 
         # for show progress bar
@@ -52,12 +48,14 @@ class Page3(ctk.CTkFrame):
         label3.place(x=250,y=50)
         label4.place(x=370,y=60)
         label5.place(x=495,y=60)
+        
+        infoText = ctk.CTkLabel(master=frame, text="กำหนดช่วงเวลาที่ต้องการจะตัดในแต่ละคลิป", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
+        infoText.place(relx = 0.31, rely = 0.243, anchor="n")
 
         # frame inner for conntent
         scrollFrame = ctk.CTkScrollableFrame(master=inner1, orientation="horizontal", bg_color="transparent", fg_color="#181818", corner_radius=5, border_width=1, border_color="#474747")
         scrollFrame.pack(pady=50, padx=250, side="top", fill="both", expand=True, anchor="nw")
 
-        # numOfvideos
         for i in range(len(controller.videoPaths)):
             col_offset = 2 * i  # Ensures label and entry for each video are in separate columns
 
@@ -76,7 +74,7 @@ class Page3(ctk.CTkFrame):
             self.frame_width = frame_width
             self.frame_height = frame_height
 
-            self.label_img = ctk.CTkLabel(vdoFrame)
+            self.label_img = ctk.CTkLabel(vdoFrame,text="")
             self.label_img.pack(expand=True, fill="both")
             self.update_frame()
 
