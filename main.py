@@ -1,4 +1,5 @@
 # app.py
+import VideoEditor
 import customtkinter as ctk
 from FirstPage import Page1
 from uploadPage import Page2
@@ -11,39 +12,32 @@ class App(ctk.CTk):
         super().__init__()
 
         self.title("Aipycut")
-        self.geometry("1536x864")
-        self.after(0, lambda:self.state('zoomed'))
+        self.geometry("1280x720")
 
         self.frames = {}
+
+        self.video_editor = None
+        self.numOfvideos = 0
+        self.videoPaths = []
         
         # Container to hold all pages
-        container = ctk.CTkFrame(self, fg_color="black")
-        container.pack(fill="both", expand=True)
-
-        # Add both pages to the container
-        for F in (Page1, Page2,Page3, Page4,Page5):
-            page_name = F.__name__
-            frame = F(parent=container, controller=self)
-            self.frames[page_name] = frame
-            frame.place(x=0, y=0, relwidth=1, relheight=1)
+        self.container = ctk.CTkFrame(self, fg_color="black")
+        self.container.pack(fill="both", expand=True)
+        self.frame = None
         
         # Start with Page1
         self.show_frame("Page1")
 
     def show_frame(self, page_name):
-        frame = self.frames[page_name]
-        frame.tkraise()  # Bring the frame to the front
-        
-        if page_name == "Page1":
-            frame.start_animation()
-        elif page_name == "Page2":
-            frame.start_animation()
-        elif page_name == "Page3":
-            frame.start_animation()
-        elif page_name == "Page4":
-            frame.start_animation()
-        elif page_name == "Page5":
-            frame.start_animation()
+
+        if self.frame:
+            self.frame.destroy()
+
+        for F in (Page1, Page2, Page3, Page4, Page5):
+            if page_name == F.__name__:
+                self.frame = F(parent=self.container, controller=self)
+                self.frame.place(x=0, y=0, relwidth=1, relheight=1)
+                self.frame.start_animation()
             
 
 if __name__ == "__main__":
