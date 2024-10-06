@@ -61,7 +61,7 @@ class VideoEditor:
         if self.video_clip:
             if text:
                 txt_clip = TextClip(text, fontsize=24, color='white').set_position('center').set_duration(self.video_clip.duration)
-                video_with_text = CompositeAudioClip([self.video_clip, txt_clip])
+                video_with_text = CompositeVideoClip([self.video_clip, txt_clip])
                 video_with_text = speedx(video_with_text, speed)  # เรียกใช้ speedx โดยตรง
                 self.timeline_clips.append(video_with_text)
             else:
@@ -138,7 +138,8 @@ class VideoEditor:
         if self.final_clip:
             self.final_clip = self.final_clip.volumex(volume)
 
-if __name__ is "__main__":
+
+if __name__ == "__main__":
     # สร้างอินสแตนซ์ของ VideoEditor
     editor = VideoEditor()
 
@@ -169,7 +170,7 @@ if __name__ is "__main__":
 
 
     # กำหนดเสียงพื้นหลังของวิดีโอ
-    editor.set_bgm("epic.mp3")
+    editor.set_bgm("background.mp3")
     editor.change_bgmvolume(0.15)
     editor.add_bgm()
     editor.chang_finalvolume()
