@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from animate import ProgressBarAnimator
 from PIL import Image, ImageTk
 import cv2
 
@@ -12,39 +13,33 @@ class Page3(ctk.CTkFrame):
         # Store video start and end times in a list
         self.video_timings = []  # List to store start and end times for each video
 
-        # Store video start and end times in a list
-        self.video_timings = []  # List to store start and end times for each video
-
         # Page Bg
         frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")#111111
         frame.pack(fill="both", expand=True )
 
         # Inner Frame in Page bg (for what??)
-        inner1 = ctk.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent") #transparent     
+        inner1 = ctk.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent") #transparent
         inner1.pack(side = "top",fill="both", expand=True )
-        
-        # for make margin on the top 
+
+        # for make margin on the top
         hidden = ctk.CTkLabel(master=inner1, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden.pack( padx=50, side="top", anchor="nw")
 
         # Page Label
         label = ctk.CTkLabel(master=inner1, text="Cut Time", font=("Tahoma", 30, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#4CC9F0"))
         label.pack( padx=50, side="top", anchor="n")
-        
+
         # frame for progress bar
         frame2 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent") #transparent
         frame2.pack( side = "top")
-        
+
         #Progression bar
         self.animator = ProgressBarAnimator(frame2)
-        progressbar = ctk.CTkProgressBar(frame2, width=600,height= 20,fg_color="#262626",progress_color = "#4CC9F0",orientation="horizontal",corner_radius=10)
-        progressbar.pack( pady = 20,side="top", anchor="n")
-        progressbar.set(0.60)
-        
+
         # for show progress bar
         hidden1 = ctk.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black") #
         hidden1.pack( side="top", anchor="n")
-        
+
         #Progession Label bar
         label1 = ctk.CTkButton(frame2, width=100,text='Frame Rate',   font=("Tahoma", 15, "bold"),text_color = "#8c8c8c", fg_color="#262626",corner_radius = 50,border_width=2,border_color="#474747",hover = False)
         label2 = ctk.CTkButton(frame2, width=100,text='Upload',       font=("Tahoma", 15, "bold"),text_color = "#8c8c8c", fg_color='#262626',corner_radius = 50,border_width=2,border_color="#474747",hover = False)
@@ -61,7 +56,7 @@ class Page3(ctk.CTkFrame):
         scrollFrame = ctk.CTkScrollableFrame(master=inner1, orientation="horizontal", bg_color="transparent", fg_color="#181818", corner_radius=5, border_width=1, border_color="#474747")
         scrollFrame.pack(pady=50, padx=250, side="top", fill="both", expand=True, anchor="nw")
 
-        # numOfvideos = 4
+        # numOfvideos
         for i in range(len(controller.videoPaths)):
             col_offset = 2 * i  # Ensures label and entry for each video are in separate columns
 
@@ -74,7 +69,7 @@ class Page3(ctk.CTkFrame):
 
             self.cap = cv2.VideoCapture(controller.videoPaths[i])
             if not self.cap.isOpened():
-                print(ff"Error: Unable to open video file {video_path} {video_path}.")
+                print(f"Error: Unable to open video file {video_path} {video_path}.")
                 return
 
             self.frame_width = frame_width
@@ -99,10 +94,13 @@ class Page3(ctk.CTkFrame):
             self.video_timings.append({'start_entry': start_time_entry, 'end_entry': end_time_entry})
 
         nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: [self.collect_data(), controller.show_frame("Page4")])
-            self.video_timings.append({'start_entry': start_time_entry, 'end_entry': end_time_entry})
-
-        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: [self.collect_data(), controller.show_frame("Page4")])
         nextButton.place(x=1080,y=640)
+
+    def collect_data(self):
+        for index, timing in enumerate(self.video_timings):
+            start_time = timing['start_entry'].get()
+            end_time = timing['end_entry'].get()
+            print(f"Video {index + 1}: Start Time = {start_time}, End Time = {end_time}")
 
     def update_frame(self):
         ret, frame = self.cap.read()
@@ -117,6 +115,6 @@ class Page3(ctk.CTkFrame):
         else:
             print("Error: Frame not read.")
             self.cap.release()
-            
+
     def start_animation(self):
         self.animator.animate_progressbar(start=0.3, target=0.5)
