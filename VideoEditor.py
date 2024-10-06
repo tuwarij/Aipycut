@@ -24,6 +24,13 @@ class VideoEditor:
         self.video_clip = VideoFileClip(self.video_path)
         self.video_clip = self.video_clip.resize(self.resolution)
 
+    def set_start(self, start_time):
+        if  self.video_clip and start_time > 0:
+            self.clip_start = start_time
+
+    def set_end(self, end_time):
+        if self.video_clip and end_time > self.clip_start and end_time <= self.video_clip.duration:
+            self.clip_end = end_time
 
     def set_trim(self, start_time, end_time):
         """

@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from animate import ProgressBarAnimator
 from PIL import Image, ImageTk
+from AI.srcs.emotion_detector import emotion_detection
 import cv2
 
 ctk.set_appearance_mode("dark")
@@ -69,7 +70,7 @@ class Page3(ctk.CTkFrame):
 
             self.cap = cv2.VideoCapture(controller.videoPaths[i])
             if not self.cap.isOpened():
-                print(f"Error: Unable to open video file {video_path} {video_path}.")
+                print(f"Error: Unable to open video file {controller.videoPaths[i]}")
                 return
 
             self.frame_width = frame_width
@@ -98,9 +99,24 @@ class Page3(ctk.CTkFrame):
 
     def collect_data(self):
         for index, timing in enumerate(self.video_timings):
-            start_time = timing['start_entry'].get()
-            end_time = timing['end_entry'].get()
-            print(f"Video {index + 1}: Start Time = {start_time}, End Time = {end_time}")
+            self.controller.video_editor.open_video(self.controller.videoPaths[index])
+            if timing['start_entry'].get():
+                start_time = timing['start_entry'].get()
+                self.controller.video_editor.set_start(start_time)
+                print(f"Video {index + 1}: Start Time = {start_time}", end=", ")
+            if timing['end_entry'].get():
+                end_time = timing['end_entry'].get()
+                self.controller.video_editor.set_end(end_time)
+                print(f"End Time = {end_time}")
+            self.controller.video_editor.cut_clip()
+            self.controller.video_editor.add_to_timeline()
+        self.controller.video_editor.merge_clips()
+
+        video_path = "./uploads/sample.mp4"
+        self.controller.video_editor.export_video(video_path)
+
+        self.controller.emotions = emotion_detection(video_path)
+        print("Emotions detected:", self.controller.emotions)
 
     def update_frame(self):
         ret, frame = self.cap.read()

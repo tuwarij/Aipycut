@@ -143,7 +143,7 @@ class Page4(ctk.CTkFrame):
         vdoFrame = ctk.CTkFrame(frame4, width=frame_width, height=frame_height, fg_color="grey")
         vdoFrame.pack(pady = 10,side="top", anchor="n")
 
-        self.cap = cv2.VideoCapture('test.mp4')
+        self.cap = cv2.VideoCapture('./uploads/sample.mp4')
         if not self.cap.isOpened():
             print("Error: Unable to open video file.")
             return
@@ -179,5 +179,3 @@ class Page4(ctk.CTkFrame):
 
     def start_animation(self):
         self.animator.animate_progressbar(start=0.5, target=0.7)
-
-
