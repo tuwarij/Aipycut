@@ -88,8 +88,8 @@ class Page4(ctk.CTkFrame):
         musicText = ctk.CTkLabel(master=pickFrame, text="Here is a list of “Angry” ", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029")) 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
         
-        # folder_path = 'E:/!KMITL/3/AI/Aipycut/song'  # ใส่ path โฟลเดอร์ที่มีเพลง
-        # self.display_songs(pickFrame, folder_path)
+        folder_path = 'E:/!KMITL/3/AI/Aipycut/song'  # ใส่ path โฟลเดอร์ที่มีเพลง
+        self.display_songs(pickFrame, folder_path)
         
         
         #preview video
@@ -186,60 +186,34 @@ class Page4(ctk.CTkFrame):
     def start_animation(self):
         self.animator.animate_progressbar(start=0.5, target=0.7)
 
-    # def play_song(self, song_path):
-    #     pygame.mixer.music.load(song_path)
-    #     pygame.mixer.music.play()
+    def play_song(self, song_path):
+        pygame.mixer.music.load(song_path)
+        pygame.mixer.music.play()
 
-    # def display_songs(self, pickFrame, folder_path):
-    #     # อ่านไฟล์ในโฟลเดอร์
-    #     songs = [f for f in os.listdir(folder_path) if f.endswith('.mp3')]  # เฉพาะไฟล์ที่เป็น .mp3 
-    #     songs = songs[:3]  # เลือกแค่ 3 ไฟล์แรก
+    def display_songs(self, pickFrame, folder_path):
+        # อ่านไฟล์ในโฟลเดอร์
+        songs = [f for f in os.listdir(folder_path) if f.endswith('.mp3')]  # เฉพาะไฟล์ที่เป็น .mp3 
+        songs = songs[:3]  # เลือกแค่ 3 ไฟล์แรก
 
-    #     # สร้าง Label สำหรับแสดงชื่อเพลงและระยะเวลา
-    #     for i, song in enumerate(songs):
-    #         # ตัดนามสกุลไฟล์ออก
-    #         song_name, file_ext = os.path.splitext(song)
+        # สร้าง Label สำหรับแสดงชื่อเพลงและระยะเวลา
+        for i, song in enumerate(songs):
+            # ตัดนามสกุลไฟล์ออก
+            song_name, file_ext = os.path.splitext(song)
 
-    #         # อ่านระยะเวลาของเพลง
-    #         song_path = os.path.join(folder_path, song)
-    #         if file_ext == ".mp3":
-    #             audio = MP3(song_path)
-    #         else:
-    #             audio = None
+            # อ่านระยะเวลาของเพลง
+            song_path = os.path.join(folder_path, song)
+            if file_ext == ".mp3":
+                audio = MP3(song_path)
+            else:
+                audio = None
 
-    #         if audio:
-    #             duration = int(audio.info.length)  # ระยะเวลาของเพลงเป็นวินาที
-    #             minutes, seconds = divmod(duration, 60)
-    #             duration_str = f"{minutes}:{seconds:02d}"  # รูปแบบ mm:ss
-    #         else:
-    #             duration_str = "Unknown"
+            if audio:
+                duration = int(audio.info.length)  # ระยะเวลาของเพลงเป็นวินาที
+                minutes, seconds = divmod(duration, 60)
+                duration_str = f"{minutes}:{seconds:02d}"  # รูปแบบ mm:ss
+            else:
+                duration_str = "Unknown"
 
-    #         framesong = ctk.CTkButton(master=pickFrame,text=f"Song {i+1}: {song_name} {duration_str}",font=("Tahoma", 20) ,bg_color="transparent", fg_color="#202020",command=lambda path=song_path: self.play_song(path))
-    #         framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")
-
-    #         # สร้างปุ่มสำหรับแต่ละชื่อเพลงที่สามารถคลิกเพื่อเล่นเพลงได้
-    #         # song_label = ctk.CTkButton(
-    #         #     master=framesong,
-    #         #     text=f"Song {i+1}: {song_name}",
-    #         #     font=("Tahoma", 20, "bold"),
-    #         #     text_color="white",
-    #         #     bg_color="transparent",
-    #         #     fg_color="transparent",
-    #         #     anchor="w",
-    #         #     command=lambda path=song_path: self.play_song(path)  # ใช้ lambda เพื่อส่ง path ของเพลงไปยังฟังก์ชัน play_song
-    #         # )
-    #         # song_label.pack(pady=(2, 0), padx=5, fill="both", expand=True, anchor="nw")
-
-    #         # # แสดงระยะเวลาของเพลง
-    #         # song_duration = ctk.CTkButton(
-    #         #     master=framesong, 
-    #         #     text=f"Duration : {duration_str}", 
-    #         #     font=("Tahoma", 15), 
-    #         #     text_color="white", 
-    #         #     bg_color="transparent", 
-    #         #     fg_color="transparent", 
-    #         #     anchor="nw",
-    #         #     command=lambda path=song_path: self.play_song(path)
-    #         # )
-    #         # song_duration.pack(pady=(0, 0), padx=5, fill="both", expand=True, anchor="nw")
+            framesong = ctk.CTkButton(master=pickFrame,text=f"Song {i+1}: {song_name} {duration_str}",font=("Tahoma", 20) ,bg_color="transparent", fg_color="#202020",command=lambda path=song_path: self.play_song(path))
+            framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")
 

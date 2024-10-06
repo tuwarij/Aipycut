@@ -10,7 +10,7 @@ class Page3(ctk.CTkFrame):
     def __init__(self, parent, controller):
         ctk.CTkFrame.__init__(self, parent)
         self.controller = controller
-
+        self.video_timings = []
         # Page Bg
         frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")#111111
         frame.pack(fill="both", expand=True )
