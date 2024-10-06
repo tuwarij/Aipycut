@@ -10,9 +10,6 @@ class Page3(ctk.CTkFrame):
         ctk.CTkFrame.__init__(self, parent)
         self.controller = controller
 
-        # Store video start and end times in a list
-        self.video_timings = []  # List to store start and end times for each video
-
         # Page Bg
         frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")#111111
         frame.pack(fill="both", expand=True )
@@ -33,7 +30,6 @@ class Page3(ctk.CTkFrame):
         frame2 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent") #transparent
         frame2.pack( side = "top")
         
-        #Progression bar
         self.animator = ProgressBarAnimator(frame2)
         
         # for show progress bar
@@ -51,13 +47,16 @@ class Page3(ctk.CTkFrame):
         label3.place(x=250,y=50)
         label4.place(x=370,y=60)
         label5.place(x=495,y=60)
+        
+        infoText = ctk.CTkLabel(master=frame, text="กำหนดช่วงเวลาที่ต้องการจะตัดในแต่ละคลิป", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
+        infoText.place(relx = 0.31, rely = 0.243, anchor="n")
 
         # frame inner for conntent
         scrollFrame = ctk.CTkScrollableFrame(master=inner1, orientation="horizontal", bg_color="transparent", fg_color="#181818", corner_radius=5, border_width=1, border_color="#474747")
         scrollFrame.pack(pady=50, padx=250, side="top", fill="both", expand=True, anchor="nw")
 
-        numOfvideos = 1
-        for i in range(numOfvideos):
+        # numOfvideos = 4
+        for i in range(len(controller.videoPaths)):
             col_offset = 2 * i  # Ensures label and entry for each video are in separate columns
 
             # Video Preview Frame
@@ -67,16 +66,15 @@ class Page3(ctk.CTkFrame):
             vdoFrame = ctk.CTkFrame(scrollFrame, width=frame_width, height=frame_height, fg_color="grey")
             vdoFrame.grid(row=0, column=col_offset, columnspan=2, padx=30, pady=(10, 0))  # Video preview spans two columns
 
-            video_path = f"video{i+1}.mp4"  # Example, or fetch from user input
-            self.cap = cv2.VideoCapture(video_path)
+            self.cap = cv2.VideoCapture(controller.videoPaths[i])
             if not self.cap.isOpened():
-                print(f"Error: Unable to open video file {video_path}.")
+                print("Error: Unable to open video file.")
                 return
 
             self.frame_width = frame_width
             self.frame_height = frame_height
 
-            self.label_img = ctk.CTkLabel(vdoFrame)
+            self.label_img = ctk.CTkLabel(vdoFrame,text="")
             self.label_img.pack(expand=True, fill="both")
             self.update_frame()
 
@@ -92,17 +90,10 @@ class Page3(ctk.CTkFrame):
             end_time_entry = ctk.CTkEntry(scrollFrame, font=("Tahoma", 14), width=100)
             end_time_entry.grid(row=2, column=col_offset + 1, padx=(0, 30), pady=(10, 0))  # Entry in next column
 
-            self.video_timings.append({'start_entry': start_time_entry, 'end_entry': end_time_entry})
 
-        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: [self.collect_data(), controller.show_frame("Page4")])
-        nextButton.place(x=1080,y=640)
-
-    def collect_data(self):
-        for index, timing in enumerate(self.video_timings):
-            start_time = timing['start_entry'].get()
-            end_time = timing['end_entry'].get()
-            print(f"Video {index + 1}: Start Time = {start_time}, End Time = {end_time}")
-
+            
+        nextButton = ctk.CTkButton(master=frame, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page4"))
+        nextButton.place(relx=0.65,rely=0.8)
 
     def update_frame(self):
         ret, frame = self.cap.read()
@@ -117,6 +108,7 @@ class Page3(ctk.CTkFrame):
         else:
             print("Error: Frame not read.")
             self.cap.release()
-            
+
     def start_animation(self):
         self.animator.animate_progressbar(start=0.3, target=0.5)
+    
