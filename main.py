@@ -17,8 +17,8 @@ class App(ctk.CTk):
         self.frames = {}
 
         self.video_editor = None
-        self.numOfvideos = 0
         self.videoPaths = []
+        self.emotions = []
         
         # Container to hold all pages
         self.container = ctk.CTkFrame(self, fg_color="black")
