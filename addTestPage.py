@@ -18,31 +18,31 @@ class Page4(ctk.CTkFrame):
         # Get screen width and height
         self.width = 1536
         self.height = 864
-        
+
         # Create a label to display video preview
         ctk.CTkFrame.__init__(self, parent)
         self.controller = controller
         global frame
         frame = ctk.CTkFrame(master=self , bg_color="transparent", fg_color="#111111")
         frame.pack(fill="both", expand=True )
- 
-        inner1 = ctk.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent")      
+
+        inner1 = ctk.CTkFrame(master=frame, bg_color="transparent", fg_color="transparent")
         inner1.pack(side = "top",fill="both", expand=True )
-        
+
         hidden = ctk.CTkLabel(master=inner1, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden.pack( padx=50, side="top", anchor="nw")
 
         label = ctk.CTkLabel(master=inner1, text="Add Song", font=("Tahoma", 30, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#4CC9F0"))
         label.pack( padx=50, side="top", anchor="n")
-        
+
         frame2 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent")
         frame2.pack( side = "top")
-        
+
         self.animator = ProgressBarAnimator(frame2)
-        
+
         hidden1 = ctk.CTkLabel(master=frame2, text="" ,bg_color="transparent", fg_color="transparent", text_color="black")
         hidden1.pack( side="top", anchor="n")
-        
+
         #Progession Label bar
         label1 = ctk.CTkButton(frame2, width=100,text='Frame Rate',   font=("Tahoma", 15, "bold"),text_color = "#8c8c8c", fg_color="#262626",corner_radius = 50,border_width=2,border_color="#474747",hover = False)
         label2 = ctk.CTkButton(frame2, width=100,text='Upload',       font=("Tahoma", 15, "bold"),text_color = "#8c8c8c", fg_color='#262626',corner_radius = 50,border_width=2,border_color="#474747",hover = False)
@@ -54,7 +54,7 @@ class Page4(ctk.CTkFrame):
         label3.place(x=250,y=60)
         label4.place(x=370,y=50)
         label5.place(x=495,y=60)
-        
+
         infoText = ctk.CTkLabel(master=inner1, text="เลือกเพลงที่ต้องการใส่จากระบบแนะนำเพลง", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
         infoText.place(relx = 0.16, rely = 0.25, anchor="n")
 
@@ -62,60 +62,48 @@ class Page4(ctk.CTkFrame):
         global frame3
         frame3 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent")
         frame3.pack(pady=50 ,padx=(50,10), side="left",fill="both", expand=True ,anchor="nw")
-        
+
         musicFrame = ctk.CTkFrame(master=frame3, bg_color="transparent", fg_color="black", corner_radius = 5)
         musicFrame.pack(pady=5 , side="top",fill="x" ,anchor="nw")
-        
+
         musicText = ctk.CTkLabel(master=musicFrame, text="Music Recommendation", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF0075")) 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
-        
+
         musicinfoText = ctk.CTkLabel(master=musicFrame, text="The function is to have an AI predict the emotions of a character based on their facial expressions \n and then suggest music that suits the character's expression", font=("Tahoma", 10, "bold"), bg_color="transparent", fg_color="black", text_color=("#ffffff"),anchor="w",justify="left") 
         musicinfoText.pack(padx = 10, side="top", anchor="nw")
-        
+
         #line between music recommendation and pick song
         progressbar = ctk.CTkProgressBar(frame3, width=560,height= 5,fg_color="#262626",progress_color = "#FF0075",orientation="horizontal",corner_radius=10)
         progressbar.pack( pady = 3,side="top", anchor="n")
         progressbar.set(1)
-        
+
         #select song frame
         pickFrame = ctk.CTkFrame(master=frame3, bg_color="transparent", fg_color="black", corner_radius = 5)
         pickFrame.pack(pady=5 , side="top",fill="both", expand=True ,anchor="nw")
-        
+
         musicText = ctk.CTkLabel(master=pickFrame, text="Here is a list of “Angry” ", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029")) 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
-        
+
         folder_path = './song_test'  # ใส่ path โฟลเดอร์ที่มีเพลง
         self.display_songs(pickFrame, folder_path)
-        
-        
+
         #preview video
         global frame4
         frame4 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="#181818", corner_radius = 5,border_width=1,border_color="#474747")
         frame4.pack(pady=50 ,padx=(10,50), side="left",fill="both", expand=True ,anchor="nw")
-        
+
         self.vdoPreview()
 
         # Initialize components
         # self.addText()
-        
+
         # # self.MuRecSide()
         # # self.vdoSide()
         # self.vdoPreview()
-        
-        # # self.buttonNext()
-        # image_path = "circle.png"
-        # image1 = self.add_image(image_path,250,200)
-        # label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image1, text="",bg_color="black",corner_radius=5)
-        # label_with_image.place(x=380, y=4)
-        
-        # image_path = "circle2.png"
-        # image2 = self.add_image(image_path,200,130)
-        # label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image2, text="",bg_color="black",corner_radius=5)
-        # label_with_image.place(x=1, y=90)
 
         nextButton = ctk.CTkButton(master=frame4, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page5"))
         nextButton.place(relx=0.7, rely=0.85)
-        
+
 
 
     def addText(self):
@@ -168,7 +156,7 @@ class Page4(ctk.CTkFrame):
         else:
             print("Error: Frame not read.")
             self.cap.release()
-            
+
     def add_image(self,image_path,x,y):
         image = Image.open(image_path)
 
@@ -188,12 +176,12 @@ class Page4(ctk.CTkFrame):
             pygame.mixer.music.play()  # เล่นเพลงถ้าไม่มีเพลงกำลังเล่น
             self.vdoFrame.destroy()
             self.vdoPreview()
-            
+
 
     def display_songs(self, pickFrame, folder_path):
         # อ่านไฟล์ในโฟลเดอร์
-        songs = [f for f in os.listdir(folder_path) if f.endswith('.mp3')]  # เฉพาะไฟล์ที่เป็น .mp3 
-        
+        songs = [f for f in os.listdir(folder_path) if f.endswith('.mp3')]  # เฉพาะไฟล์ที่เป็น .mp3
+
         if len(songs) == 0:
             return  # หากไม่มีเพลงในโฟลเดอร์
 
@@ -229,5 +217,5 @@ class Page4(ctk.CTkFrame):
                 anchor="w",
                 command=lambda path=song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
             )
-            framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")    
+            framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")
 
