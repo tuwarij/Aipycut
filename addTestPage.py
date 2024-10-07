@@ -84,7 +84,7 @@ class Page4(ctk.CTkFrame):
         musicText = ctk.CTkLabel(master=pickFrame, text="Here is a list of “Angry” ", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029")) 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
         
-        folder_path = 'E:/!KMITL/3/AI/Aipycut/song_test'  # ใส่ path โฟลเดอร์ที่มีเพลง
+        folder_path = './song_test'  # ใส่ path โฟลเดอร์ที่มีเพลง
         self.display_songs(pickFrame, folder_path)
         
         
@@ -139,8 +139,8 @@ class Page4(ctk.CTkFrame):
         aspect_ratio = 16/9
         frame_width = int(self.width * 0.55)
         frame_height = int(frame_width / aspect_ratio)
-        vdoFrame = ctk.CTkFrame(frame4, width=frame_width, height=frame_height, fg_color="grey")
-        vdoFrame.pack(pady = 10,side="top", anchor="n")
+        self.vdoFrame = ctk.CTkFrame(frame4, width=frame_width, height=frame_height, fg_color="grey")
+        self.vdoFrame.pack(pady = 10,side="top", anchor="n")
 
         self.cap = cv2.VideoCapture('./uploads/sample.mp4')
         if not self.cap.isOpened():
@@ -150,7 +150,7 @@ class Page4(ctk.CTkFrame):
         self.frame_width = frame_width
         self.frame_height = frame_height
 
-        self.label_img = ctk.CTkLabel(vdoFrame,text="")
+        self.label_img = ctk.CTkLabel(self.vdoFrame,text="")
         self.label_img.pack()
 
         self.update_frame()
@@ -186,6 +186,9 @@ class Page4(ctk.CTkFrame):
         else:
             pygame.mixer.music.load(song_path)
             pygame.mixer.music.play()  # เล่นเพลงถ้าไม่มีเพลงกำลังเล่น
+            self.vdoFrame.destroy()
+            self.vdoPreview()
+            
 
     def display_songs(self, pickFrame, folder_path):
         # อ่านไฟล์ในโฟลเดอร์
