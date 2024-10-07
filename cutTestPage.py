@@ -92,8 +92,12 @@ class Page3(ctk.CTkFrame):
 
             self.video_timings.append({'start_entry': start_time_entry, 'end_entry': end_time_entry})
 
-        nextButton = ctk.CTkButton(master=self, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,border_width=1,border_color="#4CC9F0",fg_color="#262626",hover_color="#4CC9F0",command=lambda: [self.collect_data(), controller.show_frame("Page4")])
-        nextButton.place(x=1080,y=640)
+        nextButton = ctk.CTkButton(master=frame, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=self.combineFunc)
+        nextButton.place(relx=0.65,rely=0.8)
+        
+    def combineFunc(self):
+        self.collect_data()
+        self.controller.show_frame("Page4")
 
     def collect_data(self):
         for index, timing in enumerate(self.video_timings):
@@ -132,3 +136,4 @@ class Page3(ctk.CTkFrame):
 
     def start_animation(self):
         self.animator.animate_progressbar(start=0.3, target=0.5)
+
