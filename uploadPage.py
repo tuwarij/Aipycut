@@ -47,9 +47,15 @@ class Page2(customtkinter.CTkFrame):
         infoText.place(relx = 0.31, rely = 0.25, anchor="n")
 
         # Upload button with image placeholder
-        self.uploadButton = customtkinter.CTkButton(master=frame, width=150, height=50, text="Upload your video", font=("Tahoma", 20, "bold"), text_color="#8c8c8c", corner_radius=1, border_width=2, border_color="#474747", fg_color="#181818", hover=False, command=self.select_video)
+        self.uploadButton = customtkinter.CTkButton(master=frame, width=900, height=500, text="", corner_radius=1, border_width=2, border_color="#474747", fg_color="#181818", hover=False, command=self.select_video)
         self.uploadButton.pack(pady=50, padx=250, side="top", fill="both", expand=True, anchor="nw")
-
+        
+        self.textButton = customtkinter.CTkLabel(self.uploadButton, text="Upload video", font=("Tahoma", 20, "bold"), bg_color="transparent", text_color="#8c8c8c")
+        self.textButton.place(relx=0.5, rely=0.5, anchor="n")
+        
+        self.filenamelabel = customtkinter.CTkLabel(self.uploadButton, text="", font=("Tahoma", 15, "bold"), bg_color="transparent", text_color="#8c8c8c",anchor="w",justify="left")
+        self.filenamelabel.grid(row=0, column=0, padx=10, pady=10)
+        
         # Next button
         nextButton = customtkinter.CTkButton(master=self.uploadButton, width=150, height=50, text="Next", font=("Tahoma", 15, "bold"), corner_radius=1, text_color="#4CC9F0", fg_color="#262626", hover_color="#253E46", command=lambda: controller.show_frame("Page3"))
         nextButton.place(relx=0.75, rely=0.8)
@@ -77,11 +83,18 @@ class Page2(customtkinter.CTkFrame):
             shutil.copy2(filename, destination_path)
 
             self.controller.videoPaths.append(destination_path)
-
+            
             print(f"Video file uploaded to: {destination_path}")
+            self.list_video()
         else:
             print("No file selected.")
     
+    def list_video(self):
+        strName = ""
+        for name in self.controller.videoPaths:
+            strName = strName + name + "\n"+"\n"+" "
+            self.filenamelabel.configure(text=f"File selected : \n {strName}")
+            self.textButton.configure(text="")
 
     def start_animation(self):
         self.animator.animate_progressbar(start=0.1, target=0.3)

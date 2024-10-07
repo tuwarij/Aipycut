@@ -223,6 +223,7 @@ class Page4(ctk.CTkFrame):
                 font=("Tahoma", 20),
                 bg_color="transparent",
                 fg_color="#202020",
+                anchor="w",
                 command=lambda path=song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
             )
             framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")    
