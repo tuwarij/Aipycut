@@ -19,6 +19,12 @@ class Page4(ctk.CTkFrame):
         self.width = 1536
         self.height = 864
         
+        self.songName = []
+        self.songDuration = [] 
+        self.songDiff = []
+        self.songs = ""
+        self.songs_path = ""
+        
         # Create a label to display video preview
         ctk.CTkFrame.__init__(self, parent)
         self.controller = controller
@@ -78,14 +84,18 @@ class Page4(ctk.CTkFrame):
         progressbar.set(1)
         
         #select song frame
-        pickFrame = ctk.CTkFrame(master=frame3, bg_color="transparent", fg_color="black", corner_radius = 5)
-        pickFrame.pack(pady=5 , side="top",fill="both", expand=True ,anchor="nw")
+        self.pickFrame = ctk.CTkFrame(master=frame3, bg_color="transparent", fg_color="black", corner_radius = 5)
+        self.pickFrame.pack(pady=5 , side="top",fill="both", expand=True ,anchor="nw")
         
-        musicText = ctk.CTkLabel(master=pickFrame, text="Here is a list of “Angry” ", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029")) 
+        # wait for ai to add text emotion
+        musicText = ctk.CTkLabel(self.pickFrame, text="Here is a list of “Angry” ", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029")) 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
         
-        folder_path = './song_test'  # ใส่ path โฟลเดอร์ที่มีเพลง
-        self.display_songs(pickFrame, folder_path)
+        # testsong
+        self.folder_path = ["Angry",  "Sad", "Happy"]
+        self.folder_path1 = ["Angry"]
+        self.folder_path2 = ["Angry",  "Sad"]
+        self.ramdom_songs(self.folder_path)
         
         
         #preview video
@@ -95,45 +105,9 @@ class Page4(ctk.CTkFrame):
         
         self.vdoPreview()
 
-        # Initialize components
-        # self.addText()
-        
-        # # self.MuRecSide()
-        # # self.vdoSide()
-        # self.vdoPreview()
-        
-        # # self.buttonNext()
-        # image_path = "circle.png"
-        # image1 = self.add_image(image_path,250,200)
-        # label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image1, text="",bg_color="black",corner_radius=5)
-        # label_with_image.place(x=380, y=4)
-        
-        # image_path = "circle2.png"
-        # image2 = self.add_image(image_path,200,130)
-        # label_with_image = ctk.CTkLabel(frame3, width= 100,height=100,image=image2, text="",bg_color="black",corner_radius=5)
-        # label_with_image.place(x=1, y=90)
-
         nextButton = ctk.CTkButton(master=frame4, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page5"))
         nextButton.place(relx=0.7, rely=0.85)
         
-
-
-    def addText(self):
-
-        label_music_rec = ctk.CTkLabel(self, text="Music Recommend", font=("Tahoma", 32), text_color="#4CC9F0",bg_color="#181818")
-        label_music_rec.place(relx=0.175, rely=0.275, anchor="nw")
-
-    def MuRecSide(self):
-        frame_width = int(self.width * 0.465)
-        frame_height = int(self.height * 0.7)
-        rec_frame = ctk.CTkFrame(self, width=frame_width, height=frame_height, fg_color="#0a0a0a")
-        rec_frame.place(relx=0.025, rely=0.125, anchor="nw")
-
-    def vdoSide(self):
-        frame_width = int(self.width * 0.465)
-        frame_height = int(self.height * 0.7)
-        vdo_frame = ctk.CTkFrame(self, width=frame_width, height=frame_height, fg_color="#181818")
-        vdo_frame.place(relx=0.51, rely=0.125, anchor="nw")
 
     def vdoPreview(self):
         aspect_ratio = 16/9
@@ -189,45 +163,67 @@ class Page4(ctk.CTkFrame):
             self.vdoFrame.destroy()
             self.vdoPreview()
             
-
-    def display_songs(self, pickFrame, folder_path):
-        # อ่านไฟล์ในโฟลเดอร์
-        songs = [f for f in os.listdir(folder_path) if f.endswith('.mp3')]  # เฉพาะไฟล์ที่เป็น .mp3 
+    def ramdom_songs(self, folder_path):
+        if len(folder_path) == 3:
+            for i in folder_path: 
+                self.read_song(i)
+        elif len(folder_path) == 2:
+            self.read_song(folder_path[0])
+            self.read_song(folder_path[0])
+            self.read_song(folder_path[1])
+        elif len(folder_path) == 1:
+            self.read_song(folder_path[0])
+            self.read_song(folder_path[0])
+            self.read_song(folder_path[0])
+        else:
+            print("No classify data")
         
+        for i in self.songName:
+            print(i)   
+        for i in self.songDuration:
+            print(i) 
+        self.display_songs_button()
+            
+    def read_song(self, folder_path):
+        songs = [f for f in os.listdir(f"./{folder_path}") if f.endswith('.mp3') and f not in self.songDiff]
         if len(songs) == 0:
-            return  # หากไม่มีเพลงในโฟลเดอร์
-
-        # เลือกเพลงแบบสุ่ม 3 เพลง
-        random_songs = random.sample(songs, min(len(songs), 3))  # เลือกเพลงสุ่มสูงสุด 3 เพลง
-
-        # สร้าง Label สำหรับแสดงชื่อเพลงและระยะเวลา
-        for i, song in enumerate(random_songs):
-            # ตัดนามสกุลไฟล์ออก
-            song_name, file_ext = os.path.splitext(song)
-
-            # อ่านระยะเวลาของเพลง
-            song_path = os.path.join(folder_path, song)
-            if file_ext == ".mp3":
-                audio = MP3(song_path)
-            else:
-                audio = None
-
-            if audio:
-                duration = int(audio.info.length)  # ระยะเวลาของเพลงเป็นวินาที
-                minutes, seconds = divmod(duration, 60)
-                duration_str = f"{minutes}:{seconds:02d}"  # รูปแบบ mm:ss
-            else:
-                duration_str = "Unknown"
-
+            return
+       
+        random_song = random.sample(songs, min(len(songs), 1))[0]  # เลือกเพลงสุ่ม 1 เพลง
+        song_name = random_song.split(".")[0]  # ตัดนามสกุลไฟล์ออก 
+        file_ext = random_song.split(".")[1]
+        # อ่านระยะเวลาของเพลง
+        self.song_path = os.path.join(f"./{folder_path}",random_song)
+        if file_ext == "mp3":
+            audio = MP3(self.song_path)
+        else:
+            audio = None
+        if audio:
+            duration = int(audio.info.length)  # ระยะเวลาของเพลงเป็นวินาที
+            minutes, seconds = divmod(duration, 60)
+            duration_str = f"{minutes}:{seconds:02d}"  # รูปแบบ mm:ss
+        else:
+            duration_str = "Unknown"
+        
+        self.songName.append(song_name)
+        self.songDuration.append(duration_str)
+        self.songDiff.append(random_song)
+        
+        
+        
+        
+    # ยังไม่เสร็จ
+    def display_songs_button(self):
+        for i, song in enumerate(self.songName):
             # สร้างปุ่มสำหรับแต่ละเพลง
             framesong = ctk.CTkButton(
-                master=pickFrame,
-                text=f"Song {i+1}: {song_name} {duration_str}",
+                self.pickFrame,
+                text=f"Song {i+1} {self.folder_path[i]}: {self.songName[i]} {self.songDuration[i]}",
                 font=("Tahoma", 20),
                 bg_color="transparent",
                 fg_color="#202020",
                 anchor="w",
-                command=lambda path=song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
+                command=lambda path=self.song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
             )
             framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")    
 
