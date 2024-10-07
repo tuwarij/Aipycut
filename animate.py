@@ -18,5 +18,7 @@ class ProgressBarAnimator:
                 self.progressbar.set(self.progress)
                 self.progress += increment
                 self.progressbar.after(delay, update)  # Schedule the next update
+            if self.progress > 0.95:
+                self.progressbar.set(1)
 
         update()
