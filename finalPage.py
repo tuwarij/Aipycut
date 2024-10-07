@@ -87,8 +87,8 @@ class Page5(customtkinter.CTkFrame):
         # uploadButton = customtkinter.CTkButton(master=frame, width=150, height=50, text="Upload", font=("Tahoma", 15, "bold"), corner_radius=1, border_width=1, border_color="#4CC9F0", fg_color="#262626", hover_color="#4CC9F0", command=select_video)
         # uploadButton.place(x=1100, y=670)
 
-        nextButton = customtkinter.CTkButton(master=monitor, width=150, height=50, text="Next", font=("Tahoma", 15, "bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46", command=lambda: controller.show_frame("Page1"))
-        nextButton.place(relx=0.75,rely=0.8)
+        exportButton = customtkinter.CTkButton(master=monitor, width=150, height=50, text="Export", font=("Tahoma", 15, "bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46", command=lambda: controller.show_frame("Page1"))
+        exportButton.place(relx=0.75,rely=0.8)
         
     def start_animation(self):
         self.animator.animate_progressbar(start=0.7, target=1)

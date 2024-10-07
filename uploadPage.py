@@ -47,11 +47,8 @@ class Page2(customtkinter.CTkFrame):
         infoText.place(relx = 0.31, rely = 0.25, anchor="n")
 
         # Upload button with image placeholder
-        self.uploadButton = customtkinter.CTkButton(master=frame, width=900, height=500, text="", corner_radius=1, border_width=2, border_color="#474747", fg_color="#181818", hover=False, command=self.select_video)
+        self.uploadButton = customtkinter.CTkButton(master=frame, width=900, height=500, text="Upload video", font=("Tahoma", 20, "bold"), corner_radius=1, border_width=2, border_color="#474747", fg_color="#181818", hover=False, command=self.select_video)
         self.uploadButton.pack(pady=50, padx=250, side="top", fill="both", expand=True, anchor="nw")
-        
-        self.textButton = customtkinter.CTkLabel(self.uploadButton, text="Upload video", font=("Tahoma", 20, "bold"), bg_color="transparent", text_color="#8c8c8c")
-        self.textButton.place(relx=0.5, rely=0.5, anchor="n")
         
         self.filenamelabel = customtkinter.CTkLabel(self.uploadButton, text="", font=("Tahoma", 15, "bold"), bg_color="transparent", text_color="#8c8c8c",anchor="w",justify="left")
         self.filenamelabel.grid(row=0, column=0, padx=10, pady=10)
@@ -93,8 +90,9 @@ class Page2(customtkinter.CTkFrame):
         strName = ""
         for name in self.controller.videoPaths:
             strName = strName + name + "\n"+"\n"+" "
-            self.filenamelabel.configure(text=f"File selected : \n {strName}")
-            self.textButton.configure(text="")
+            self.filenamelabel.configure(text=f"File selected : \n {strName}") 
+            self.uploadButton.configure(text="")
+            
 
     def start_animation(self):
         self.animator.animate_progressbar(start=0.1, target=0.3)
