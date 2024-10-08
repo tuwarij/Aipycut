@@ -1,6 +1,8 @@
 import os
 import cv2
+import shutil
 import customtkinter as ctk
+from tkinter import filedialog
 from PIL import Image, ImageTk
 
 from animate import ProgressBarAnimator
@@ -54,10 +56,28 @@ class Page5(ctk.CTkFrame):
         
         self.video_Preview()
 
-        self.exportButton = ctk.CTkButton(master=monitor, width=150, height=50, text="Export", font=("Tahoma", 15, "bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46", command=lambda: controller.show_frame("Page1"))
+        self.exportButton = ctk.CTkButton(master=monitor, width=150, height=50, text="Export", font=("Tahoma", 15, "bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46", command=self.select_export_directory)
         self.exportButton.place(relx=0.75,rely=0.8)
         self.exportButton.lift()
-        
+
+    def select_export_directory(self):
+        file_path = self.controller.export_path
+
+        # upload to uploads folder
+        dest_folder = filedialog.askdirectory(title="Select the destination folder")
+
+        if not dest_folder:
+            return
+
+        try:
+            # Move the file
+            shutil.copy2(file_path, dest_folder)
+            print(f"Success\n"+ f"File moved to {dest_folder}")
+        except Exception as e:
+            print(f"Error{e}")
+
+        quit()
+
     def start_animation(self):
         self.animator.animate_progressbar(start=0.7, target=1)
         
