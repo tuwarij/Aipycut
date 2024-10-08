@@ -19,6 +19,8 @@ class App(ctk.CTk):
         self.video_editor = None
         self.videoPaths = []
         self.emotions = []
+        self.songPaths = []
+        self.export_path = None
         
         # Container to hold all pages
         self.container = ctk.CTkFrame(self, fg_color="black")
@@ -38,7 +40,6 @@ class App(ctk.CTk):
                 self.frame = F(parent=self.container, controller=self)
                 self.frame.place(x=0, y=0, relwidth=1, relheight=1)
                 self.frame.start_animation()
-            
 
 if __name__ == "__main__":
     app = App()
