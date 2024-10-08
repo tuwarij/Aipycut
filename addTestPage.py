@@ -28,7 +28,9 @@ class Page4(ctk.CTkFrame):
         self.songs = ""
         self.songs_path = ""
         self.selected_song = None
-        
+        self.i = 0
+        self.time_i = 1
+
         # Create a label to display video preview
         ctk.CTkFrame.__init__(self, parent)
         self.controller = controller
@@ -195,24 +197,18 @@ class Page4(ctk.CTkFrame):
     def random_songs(self, folder_path):
         if len(folder_path) == 3:
             for i in folder_path: 
-                self.read_song(i)
+                self.display_songs_button(i)
         elif len(folder_path) == 2:
-            self.read_song(folder_path[0])
-            self.read_song(folder_path[0])
-            self.read_song(folder_path[1])
+            self.display_songs_button(folder_path[0])
+            self.display_songs_button(folder_path[0])
+            self.display_songs_button(folder_path[1])
         elif len(folder_path) == 1:
-            self.read_song(folder_path[0])
-            self.read_song(folder_path[0])
-            self.read_song(folder_path[0])
+            self.display_songs_button(folder_path[0])
+            self.display_songs_button(folder_path[0])
+            self.display_songs_button(folder_path[0])
         else:
             print("No classify data")
-        
-        for i in self.songName:
-            print(i)   
-        for i in self.songDuration:
-            print(i) 
-        self.display_songs_button()
-            
+
     def read_song(self, folder_path):
         songs = [f for f in os.listdir(f"./songs/{folder_path}") if f.endswith('.mp3') and f not in self.songDiff]
         if len(songs) == 0:
@@ -238,19 +234,22 @@ class Page4(ctk.CTkFrame):
         self.songDuration.append(duration_str)
         self.songDiff.append(random_song)
         
-    def display_songs_button(self):
-        for i, song in enumerate(self.songName):
-            # สร้างปุ่มสำหรับแต่ละเพลง
-            framesong = ctk.CTkButton(
-                self.pickFrame,
-                text=f"Song {i+1} : {self.songName[i]} {self.songDuration[i]}",
-                font=("Tahoma", 18),
-                bg_color="transparent",
-                fg_color="#202020",
-                anchor="w",
-                command=lambda path=self.song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
-            )
-            framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")
+    def display_songs_button(self,folder_path):
+        self.read_song(folder_path)
+        framesong = ctk.CTkButton(
+            self.pickFrame,
+            text=f"Song {self.time_i} : {self.songName[self.i]} {self.songDuration[self.i]}",
+            font=("Tahoma", 18),
+            bg_color="transparent",
+            fg_color="#202020",
+            anchor="w",
+            command=lambda path=self.song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
+        )
+        if self.i == 2:
+            self.i = 0
+        self.i += 1
+        self.time_i += 1
+        framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")
             
     def select_song(self):
         global filename
