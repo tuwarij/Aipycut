@@ -115,9 +115,10 @@ class Page3(ctk.CTkFrame):
         self.controller.video_editor.merge_clips()
 
         video_path = "./uploads/sample.mp4"
+        model_path = "./AI/model/my_best_model_sofar.h5"
         self.controller.video_editor.export_video(video_path)
 
-        self.controller.emotions = emotion_detection(video_path)
+        self.controller.emotions = emotion_detection(video_path,model_path)
         print("Emotions detected:", self.controller.emotions)
 
     def update_frame(self):

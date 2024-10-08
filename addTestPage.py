@@ -14,6 +14,7 @@ class Page4(ctk.CTkFrame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+        self.controller.export_path = "./uploads/video_edited.mp4"
         self.configure(fg_color="#111111")
 
         pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
@@ -22,10 +23,11 @@ class Page4(ctk.CTkFrame):
         self.height = 864
         
         self.songName = []
-        self.songDuration = [] 
+        self.songDuration = []
         self.songDiff = []
         self.songs = ""
         self.songs_path = ""
+        self.selected_song = None
         
         # Create a label to display video preview
         ctk.CTkFrame.__init__(self, parent)
@@ -104,16 +106,16 @@ class Page4(ctk.CTkFrame):
         self.pickFrame.pack(pady=5 , side="top",fill="both", expand=True ,anchor="nw")
         
         # wait for ai to add text emotion
-        musicText = ctk.CTkLabel(self.pickFrame, text="Here is a list of “Angry” ", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029")) 
+        musicText = ctk.CTkLabel(self.pickFrame, text=f"Here is a list of\n{self.controller.emotions}", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF9029"),anchor="w",justify="left") 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
         
         # testsong
-        self.folder_path = ["Angry",  "Sad", "Happy"]
-        self.folder_path1 = ["Angry"]
-        self.folder_path2 = ["Angry",  "Sad"]
-        self.ramdom_songs(self.folder_path)
+        # self.folder_path = ["Angry",  "Sad", "Happy"]
+        # self.ramdom_songs(self.folder_path)
         
-        
+        #call random_songs
+        self.random_songs(self.controller.emotions)
+
         #preview video
         global frame4
         frame4 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="#181818", corner_radius = 5,border_width=1,border_color="#474747")
@@ -121,9 +123,16 @@ class Page4(ctk.CTkFrame):
         
         self.vdoPreview()
 
-        nextButton = ctk.CTkButton(master=frame4, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=lambda: controller.show_frame("Page5"))
-        nextButton.place(relx=0.7, rely=0.85)
-        
+        self.nextButton = ctk.CTkButton(master=frame4, width= 150,height=50,text="Next", font=("Tahoma", 15,"bold"),corner_radius = 1,text_color="#4CC9F0",fg_color="#262626",hover_color="#253E46",command=self.confirm_song)
+        self.nextButton.place(relx=0.7, rely=0.85)
+
+    def confirm_song(self):
+        if self.selected_song:
+            self.controller.video_editor.set_bgm(self.selected_song)
+            self.controller.video_editor.change_bgmvolume(0.15)
+            self.controller.video_editor.add_bgm()
+        self.controller.video_editor.export_video("./uploads/video_edited.mp4")
+        self.controller.show_frame("Page5")
 
     def vdoPreview(self):
         aspect_ratio = 16/9
@@ -172,14 +181,18 @@ class Page4(ctk.CTkFrame):
     def play_song(self, song_path):
         # ตรวจสอบว่าเพลงกำลังเล่นอยู่หรือไม่
         if pygame.mixer.music.get_busy():
+            self.selected_song = ""
             pygame.mixer.music.stop()  # หยุดเพลงถ้ากำลังเล่นอยู่
         else:
             pygame.mixer.music.load(song_path)
+            pygame.mixer.music.set_volume(0.3)
             pygame.mixer.music.play()  # เล่นเพลงถ้าไม่มีเพลงกำลังเล่น
             self.vdoFrame.destroy()
             self.vdoPreview()
-            
-    def ramdom_songs(self, folder_path):
+            self.selected_song = song_path
+        self.nextButton.lift()
+
+    def random_songs(self, folder_path):
         if len(folder_path) == 3:
             for i in folder_path: 
                 self.read_song(i)
@@ -206,7 +219,7 @@ class Page4(ctk.CTkFrame):
             return
        
         random_song = random.sample(songs, min(len(songs), 1))[0]  # เลือกเพลงสุ่ม 1 เพลง
-        song_name = random_song.split(".")[0]  # ตัดนามสกุลไฟล์ออก 
+        song_name = random_song.split(".")[0]  # ตัดนามสกุลไฟล์ออก
         file_ext = random_song.split(".")[1]
         # อ่านระยะเวลาของเพลง
         self.song_path = os.path.join(f"./{folder_path}",random_song)
@@ -230,7 +243,7 @@ class Page4(ctk.CTkFrame):
             # สร้างปุ่มสำหรับแต่ละเพลง
             framesong = ctk.CTkButton(
                 self.pickFrame,
-                text=f"Song {i+1} {self.folder_path[i]}: {self.songName[i]} {self.songDuration[i]}",
+                text=f"Song {i+1} : {self.songName[i]} {self.songDuration[i]}",
                 font=("Tahoma", 18),
                 bg_color="transparent",
                 fg_color="#202020",
