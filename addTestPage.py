@@ -222,7 +222,7 @@ class Page4(ctk.CTkFrame):
         song_name = random_song.split(".")[0]  # ตัดนามสกุลไฟล์ออก
         file_ext = random_song.split(".")[1]
         # อ่านระยะเวลาของเพลง
-        self.song_path = os.path.join(f"./{folder_path}",random_song)
+        self.song_path = os.path.join(f"./songs/{folder_path}",random_song)
         if file_ext == "mp3":
             audio = MP3(self.song_path)
         else:

@@ -4,7 +4,7 @@ from AI.srcs.frame_extraction import parallel_frame_extraction
 from AI.srcs.preprocessing import preprocess_frames_in_parallel
 from AI.srcs.emotion_prediction import load_emotion_model, predict_emotions, aggregate_predictions
 
-def emotion_detection(video_path, model_path="AI/model/my_model_74percent_ordered.h5"):
+def emotion_detection(video_path, model_path="AI/model/my_best_model_sofar_for_real.h5"):
     # Configuration
     video_path = video_path
     model_path = model_path
