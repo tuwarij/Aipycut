@@ -1,4 +1,6 @@
 import os
+import shutil
+from tkinter import filedialog
 import customtkinter as ctk
 from PIL import Image, ImageTk
 import cv2
@@ -64,27 +66,41 @@ class Page4(ctk.CTkFrame):
         infoText = ctk.CTkLabel(master=inner1, text="เลือกเพลงที่ต้องการใส่จากระบบแนะนำเพลง", font=("Tahoma", 15, "bold"), bg_color="transparent", fg_color="transparent", text_color=("#8c8c8c"))
         infoText.place(relx = 0.16, rely = 0.25, anchor="n")
 
-        #music recommendation frame
-        global frame3
-        frame3 = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent")
-        frame3.pack(pady=50 ,padx=(50,10), side="left",fill="both", expand=True ,anchor="nw")
+         #music recommendation frame
+        global leftFrame
+        leftFrame = ctk.CTkFrame(master=inner1, bg_color="transparent", fg_color="transparent")
+        leftFrame.pack(pady=50 ,padx=(50,10), side="left",fill="both", expand=True ,anchor="nw")
         
-        musicFrame = ctk.CTkFrame(master=frame3, bg_color="transparent", fg_color="black", corner_radius = 5)
+        uploadFrame = ctk.CTkFrame(master=leftFrame, bg_color="transparent", fg_color="black", corner_radius = 5)
+        uploadFrame.pack(pady=5 , side="top",fill="x" ,anchor="nw")
+        
+        uploadTitleText = ctk.CTkLabel(master=uploadFrame,text="Upload your song", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#3A0CA3")) 
+        uploadTitleText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
+        
+        # Upload button 
+        self.uploadButton = ctk.CTkButton(master=uploadFrame, height= 70, text="Upload song", font=("Tahoma", 15, "bold"),text_color="#474747", corner_radius=1,border_width=1,border_color="#474747", fg_color="#202020", hover=False, command=self.select_song)
+        self.uploadButton.pack(padx = 10,pady=10, side="top", fill="both", expand=True, anchor="nw")
+        
+        #show file name after user upload
+        # self.filenamelabel = ctk.CTkLabel(self.uploadButton, text="", font=("Tahoma", 13, "bold"), bg_color="transparent", text_color="#474747",anchor="w",justify="left")
+        # self.filenamelabel.grid(row=0, column=0, padx=10, pady=10)
+        
+        #line between Upload button and music recommendation 
+        progressbar = ctk.CTkProgressBar(leftFrame, width=560,height= 5,fg_color="#262626",progress_color = "#FF0075",orientation="horizontal",corner_radius=10)
+        progressbar.pack( pady = 3,side="top", anchor="n")
+        progressbar.set(1)
+        
+        musicFrame = ctk.CTkFrame(master=leftFrame, bg_color="transparent", fg_color="black", corner_radius = 5)
         musicFrame.pack(pady=5 , side="top",fill="x" ,anchor="nw")
         
         musicText = ctk.CTkLabel(master=musicFrame, text="Music Recommendation", font=("Tahoma", 25, "bold"), bg_color="transparent", fg_color="black", text_color=("#FF0075")) 
         musicText.pack(padx = 10,pady=(10,0), side="top", anchor="nw")
         
-        musicinfoText = ctk.CTkLabel(master=musicFrame, text="The function is to have an AI predict the emotions of a character based on their facial expressions \n and then suggest music that suits the character's expression", font=("Tahoma", 10, "bold"), bg_color="transparent", fg_color="black", text_color=("#ffffff"),anchor="w",justify="left") 
+        musicinfoText = ctk.CTkLabel(master=musicFrame, text="The function is to have an AI predict the emotions of a character based on their facial expressions \nand then suggest music that suits the character's expression", font=("Tahoma", 10, "bold"), bg_color="transparent", fg_color="black", text_color=("#ffffff"),anchor="w",justify="left") 
         musicinfoText.pack(padx = 10, side="top", anchor="nw")
         
-        #line between music recommendation and pick song
-        progressbar = ctk.CTkProgressBar(frame3, width=560,height= 5,fg_color="#262626",progress_color = "#FF0075",orientation="horizontal",corner_radius=10)
-        progressbar.pack( pady = 3,side="top", anchor="n")
-        progressbar.set(1)
-        
         #select song frame
-        self.pickFrame = ctk.CTkFrame(master=frame3, bg_color="transparent", fg_color="black", corner_radius = 5)
+        self.pickFrame = ctk.CTkFrame(master=leftFrame, bg_color="transparent", fg_color="black", corner_radius = 5)
         self.pickFrame.pack(pady=5 , side="top",fill="both", expand=True ,anchor="nw")
         
         # wait for ai to add text emotion
@@ -209,21 +225,52 @@ class Page4(ctk.CTkFrame):
         self.songDuration.append(duration_str)
         self.songDiff.append(random_song)
         
-        
-        
-        
-    # ยังไม่เสร็จ
     def display_songs_button(self):
         for i, song in enumerate(self.songName):
             # สร้างปุ่มสำหรับแต่ละเพลง
             framesong = ctk.CTkButton(
                 self.pickFrame,
                 text=f"Song {i+1} {self.folder_path[i]}: {self.songName[i]} {self.songDuration[i]}",
-                font=("Tahoma", 20),
+                font=("Tahoma", 18),
                 bg_color="transparent",
                 fg_color="#202020",
                 anchor="w",
                 command=lambda path=self.song_path: self.play_song(path)  # เรียกใช้ play_song เมื่อคลิกปุ่ม
             )
-            framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")    
+            framesong.pack(padx=10, pady=(5, 10), side="top", fill="both", expand=True, anchor="nw")
+            
+    def select_song(self):
+        global filename
+        filename = filedialog.askopenfilename(
+            initialdir=os.getcwd(),
+            title="Select a song",
+            filetypes=(("MP3 files", "*.mp3"), ("all files", "*.*"))
+        )
+        # upload to uploads folder
+        if filename:
+            # Define the destination folder (uploads)
+            destination_folder = os.path.join(os.getcwd(), 'uploads_local_song')
+
+            # Create the uploads folder if it doesn't exist
+            if not os.path.exists(destination_folder):
+                os.makedirs(destination_folder)
+
+            # Define the destination path for the file
+            destination_path = os.path.join(destination_folder, os.path.basename(filename))
+
+            # Copy the selected file to the uploads folder
+            shutil.copy2(filename, destination_path)
+
+            self.controller.songPaths.append(destination_path)  # Changed to songPaths
+
+            print(f"Song file uploaded to: {destination_path}")
+            self.list_song()  # Changed to list_song
+        else:
+            print("No file selected.")
+
+    
+    def list_song(self):
+        for name in self.controller.songPaths:
+            # self.filenamelabel.configure(text= name) 
+            self.uploadButton.configure(text=name)    
 
