@@ -214,7 +214,7 @@ class Page4(ctk.CTkFrame):
         self.display_songs_button()
             
     def read_song(self, folder_path):
-        songs = [f for f in os.listdir(f"./{folder_path}") if f.endswith('.mp3') and f not in self.songDiff]
+        songs = [f for f in os.listdir(f"./songs/{folder_path}") if f.endswith('.mp3') and f not in self.songDiff]
         if len(songs) == 0:
             return
        
