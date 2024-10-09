@@ -1,4 +1,4 @@
-from moviepy.editor import VideoFileClip, concatenate_videoclips, TextClip, CompositeAudioClip, AudioFileClip
+from moviepy.editor import VideoFileClip, concatenate_videoclips, TextClip, CompositeAudioClip, AudioFileClip, CompositeVideoClip
 from moviepy.video.fx.speedx import speedx  # นำเข้า speedx จาก moviepy.video.fx.speedx
 
 class VideoEditor:
