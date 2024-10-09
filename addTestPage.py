@@ -195,7 +195,7 @@ class Page4(ctk.CTkFrame):
 
     def random_songs(self, folder_path):
         if len(folder_path) == 3:
-            for i in folder_path: 
+            for i in folder_path:
                 self.display_songs_button(i)
         elif len(folder_path) == 2:
             self.display_songs_button(folder_path[0])

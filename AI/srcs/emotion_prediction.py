@@ -51,7 +51,7 @@ def aggregate_predictions(emotions, labels):
     # Count occurrences of each emotion
     emotion_count = Counter(emotions)
     # Sort emotions by count in descending order
-    sorted_emotions = [emotion for emotion, count in emotion_count.most_common()]
+    sorted_emotions = [emotion for emotion, count in emotion_count.most_common(3)]
     # Map emotion indices to labels
     sorted_labels = [labels[emotion] for emotion in sorted_emotions]
     return sorted_labels
