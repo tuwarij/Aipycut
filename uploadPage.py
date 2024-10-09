@@ -66,7 +66,6 @@ class Page2(customtkinter.CTkFrame):
     def select_video(self):
         global filename
         filename = filedialog.askopenfilename(
-            initialdir=os.getcwd(),
             title="Select a video",
             filetypes=(("MP4 files", "*.mp4"), ("all files", "*.*"))
         )

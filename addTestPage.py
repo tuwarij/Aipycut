@@ -131,7 +131,7 @@ class Page4(ctk.CTkFrame):
     def confirm_song(self):
         if self.selected_song:
             self.controller.video_editor.set_bgm(self.selected_song)
-            self.controller.video_editor.change_bgmvolume(0.15)
+            self.controller.video_editor.change_bgmvolume(0.3)
             self.controller.video_editor.add_bgm()
         self.controller.video_editor.export_video("./uploads/video_edited.mp4")
         self.controller.show_frame("Page5")
@@ -183,7 +183,6 @@ class Page4(ctk.CTkFrame):
     def play_song(self, song_path):
         # ตรวจสอบว่าเพลงกำลังเล่นอยู่หรือไม่
         if pygame.mixer.music.get_busy():
-            self.selected_song = ""
             pygame.mixer.music.stop()  # หยุดเพลงถ้ากำลังเล่นอยู่
         else:
             pygame.mixer.music.load(song_path)
@@ -254,7 +253,6 @@ class Page4(ctk.CTkFrame):
     def select_song(self):
         global filename
         filename = filedialog.askopenfilename(
-            initialdir=os.getcwd(),
             title="Select a song",
             filetypes=(("MP3 files", "*.mp3"), ("all files", "*.*"))
         )
@@ -276,6 +274,7 @@ class Page4(ctk.CTkFrame):
             self.controller.songPaths.append(destination_path)  # Changed to songPaths
 
             print(f"Song file uploaded to: {destination_path}")
+            self.selected_song = destination_path
             self.list_song()  # Changed to list_song
         else:
             print("No file selected.")
